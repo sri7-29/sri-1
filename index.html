@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>peomise 💗</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffcce6 0%, #ff99cc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #d23369;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        h1 {
+            color: #ff0066;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(255, 200, 220, 0.5);
+            animation: pulse 2s infinite, float 3s ease-in-out infinite;
+        }
+
+        .photo-gallery {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 0 auto 30px;
+            perspective: 1000px;
+        }
+
+        .photo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(255, 0, 102, 0.3);
+            overflow: hidden;
+        }
+
+        .photo {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: all 0.8s ease;
+            border: 5px solid #ffe6f2;
+            transform: rotateY(0deg);
+            backface-visibility: hidden;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 80%;
+            box-shadow: 0 5px 15px rgba(255, 0, 102, 0.2);
+            border: 1px solid #ffb3d9;
+            animation: fadeIn 2s;
+        }
+
+        .message {
+            margin: 15px 0;
+            font-size: 1.2rem;
+            color: #d23369;
+            animation: fadeInUp 1s;
+        }
+
+        .indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ffb3d9;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background: #ff0066;
+            transform: scale(1.3);
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(255, 0, 102, 0.6);
+            animation: float-up linear forwards;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100vh) translateX(0); opacity: 1; }
+            100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .photo-enter {
+            animation: zoomIn 0.8s;
+        }
+
+        .photo-exit {
+            animation: zoomOut 0.8s;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes zoomOut {
+            from { transform: scale(1); opacity: 1; }
+            to { transform: scale(1.1); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .photo-gallery {
+                width: 280px;
+                height: 380px;
+            }
+            
+            .message-box {
+                padding: 15px;
+            }
+            
+            .message {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="animate__animated animate__pulse animate__infinite">Hy peomise 🤌🏻💗</h1>
+        
+        <div class="photo-gallery">
+            <div class="photo-container" id="photoContainer">
+                <!-- Photos will be added dynamically -->
+            </div>
+            <div class="indicators" id="indicators">
+                <!-- Indicators will be added dynamically -->
+            </div>
+        </div>
+        
+        <div class="message-box">
+            <p class="message">Every moment with you is special...</p>
+            <p class="message">why?✨</p>
+            <p class="message">Don't overthink , just enjoy ur day 💕</p>
+        </div>
+    </div>
+
+    <div class="floating-hearts" id="heartsContainer"></div>
+
+    <script>
+        const photos = [
+            {
+                url: "/Users/sriharismacbook/Desktop/vs-2/vs-1.png",
+                alt: "Vaishnavi smiling at the beach"
+            },
+            {
+                url: "/Users/sriharismacbook/Desktop/vs-2/vs-2.png",
+                alt: "Vaishnavi dressed elegantly for dinner"
+            },
+            {
+                url: "/Users/sriharismacbook/Desktop/vs-2/vs-3.png",
+                alt: "Vaishnavi laughing with friends"
+            }
+        ];
+
+        // Initialize gallery
+        const photoContainer = document.getElementById('photoContainer');
+        const indicatorsContainer = document.getElementById('indicators');
+        let currentIndex = 0;
+
+        // Create photo elements and indicators
+        photos.forEach((photo, index) => {
+            // Create photo element
+            const img = document.createElement('img');
+            img.src = photo.url;
+            img.alt = photo.alt;
+            img.className = 'photo';
+            img.style.display = index === 0 ? 'block' : 'none';
+            img.dataset.index = index;
+            photoContainer.appendChild(img);
+
+            // Create indicator
+            const indicator = document.createElement('div');
+            indicator.className = `indicator ${index === 0 ? 'active' : ''}`;
+            indicator.dataset.index = index;
+            indicator.addEventListener('click', () => goToPhoto(index));
+            indicatorsContainer.appendChild(indicator);
+        });
+
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.getElementById('heartsContainer').appendChild(heart);
+            
+            // Remove heart after animation completes
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Auto-rotate photos
+        function rotatePhotos() {
+            const nextIndex = (currentIndex + 1) % photos.length;
+            goToPhoto(nextIndex);
+        }
+
+        // Go to specific photo
+        function goToPhoto(index) {
+            const currentPhoto = document.querySelector(`.photo[data-index="${currentIndex}"]`);
+            const nextPhoto = document.querySelector(`.photo[data-index="${index}"]`);
+            
+            // Animate transition
+            currentPhoto.style.animation = 'zoomOut 0.8s forwards';
+            setTimeout(() => {
+                currentPhoto.style.display = 'none';
+                nextPhoto.style.display = 'block';
+                nextPhoto.style.animation = 'zoomIn 0.8s forwards';
+                
+                // Update indicators
+                document.querySelector('.indicator.active').classList.remove('active');
+                document.querySelector(`.indicator[data-index="${index}"]`).classList.add('active');
+                
+                currentIndex = index;
+            }, 800);
+        }
+
+        // Set up intervals
+        setInterval(rotatePhotos, 5000);
+        setInterval(createHeart, 300);
+
+        // Initial animations
+        setTimeout(() => {
+            document.querySelectorAll('.message').forEach((msg, i) => {
+                setTimeout(() => {
+                    msg.style.animation = 'fadeInUp 1s forwards';
+                }, i * 500);
+            });
+        }, 1000);
+    </script>
+</body>
+</html>
